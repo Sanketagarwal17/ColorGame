@@ -1,0 +1,83 @@
+var rgb=document.getElementById("rgb");
+var newgame=document.getElementById("newgame");
+var tryagain=document.getElementById("tryagain");
+var easy=document.getElementById("easy");
+var hard=document.getElementById("hard");
+var colors=document.getElementsByClassName("color");
+var colorlist=[];
+var ans;
+var playing=true;
+var colorlength=6;
+var s='rgb(200,200,200)';
+
+startnewgame();
+newgame.addEventListener("click",startnewgame);
+tryagain.addEventListener("click",startnewgame);
+easy.addEventListener("click",starteasygame);
+hard.addEventListener("click",starthardgame);
+
+function getrgb(){
+    var r,g,b;
+    r = Math.floor(Math.random()*(255));
+    g = Math.floor(Math.random()*(255));
+    b = Math.floor(Math.random()*(255));
+    return 'RGB('+r+', '+g+', '+b+')';
+  }
+
+function startnewgame(){
+  topbar.style.background ="#4682B4";
+  tryagain.textContent = " ";
+  playing = true;
+  randomfill();
+  ans = Math.floor(Math.random()*(colorlength));
+  s = getrgb();
+  colors[ans].style.background=s;
+  rgb.textContent = s;
+  for(var i = 0 ; i<colors.length ; i++)
+  {
+    colors[i].addEventListener("click",function sanket(){
+      if(playing){
+        if(this.style.background.toString().toUpperCase() != s.toUpperCase())
+         {
+           this.style.background = 'black';
+           tryagain.textContent = "Try Again!";
+         }
+        else
+        { playing = false;
+          tryagain.textContent = "Correct!";
+        }
+    } });
+  }
+}
+
+function starteasygame(){
+    colorlength=3;
+    for(var i=3; i<6; i++){
+        colors[i].style.background='black';  
+    }
+    tryagain.textContent=" ";
+        playing=true;
+        hard.classList.remove("selected");
+        easy.classList.add('selected');  
+        startnewgame();
+    }
+function starthardgame(){
+    colorlength=6;
+    tryagain.textContent="";
+    playing=true;
+    hard.classList.add("selected");
+    easy.classList.remove("selected");
+   startnewgame();
+
+}
+
+
+function randomfill(){
+    var c;
+    for(var i = 0 ; i<colorlength ; i++){
+      c = getrgb();
+      colors[i].style.background = c;
+    }
+}
+
+
